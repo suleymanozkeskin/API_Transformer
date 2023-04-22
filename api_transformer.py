@@ -13,7 +13,7 @@ import fire
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "gpt-4")
+DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "gpt-3.5-turbo")
 
 with open("prompt.txt") as f:
     SYSTEM_PROMPT = f.read()
