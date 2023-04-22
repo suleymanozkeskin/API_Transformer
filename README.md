@@ -14,7 +14,8 @@ Besides transforming existing api's , ChatGPT will suggest improvements as comme
 
 Add your openAI api key to `.env`
 
-_warning!_ By default wolverine uses gpt-3.5-turbo. If you wish to change it to gpt-4, simply change the variable `DEFAULT_MODEL` in `.env` to `gpt-4`
+_warning!_ This bot uses gpt-3.5-turbo by default. If you wish to change it to gpt-4, simply change the variable `DEFAULT_MODEL` in `.env` to `gpt-4`
+important: gpt-4 has higher costs per request compared to gpt-3.5-turbo. Either way, you will need to add a payment method in your openAI account to utilize this bot.
 
 ## Example Usage
 
