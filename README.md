@@ -26,4 +26,4 @@ api_transformer.py    “existing_script_to_transform.py”    “targeted_frame
 To run with gpt-3.5-turbo (the default, tested option):
 
     python api_transformer.py user.py express.js user.js
-    python api_transformer.py user.py django     user.js
+    python api_transformer.py user.py django     user.py

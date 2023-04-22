@@ -18,16 +18,37 @@ DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "gpt-3.5-turbo")
 with open("prompt.txt") as f:
     SYSTEM_PROMPT = f.read()
 
+class FileExtensionError(ValueError):
+    pass
+
+
+def check_file_extension(output_framework, output_file):
+    output_framework = output_framework.lower()
+    if output_framework in ["express.js", "node.js"]:
+        expected_extension = ".js"
+    elif output_framework in ["fastapi", "flask", "django"]:
+        expected_extension = ".py"
+    else:
+        raise ValueError("Unsupported target framework")
+
+    if not output_file.endswith(expected_extension):
+        raise FileExtensionError(
+        f"The output file '{output_file}' has an incorrect extension for the {output_framework} framework. "
+        f"Please provide a file with the expected extension '{expected_extension}'."
+        )
+    
+        
+    
+
 
 def api_transformer(input_file, output_framework, output_file, model=DEFAULT_MODEL):
-    if not output_framework.lower() in ["express.js", "node.js", "fastapi", "flask", "django"]:
-        raise ValueError("Unsupported target framework")
+    check_file_extension(output_framework, output_file)
 
     # Read the input_file
     with open(input_file, "r") as f:
         file_content = f.read()
 
-    # Prepare the prompt for GPT-4
+    # Prepare the prompt for GPT
     prompt = (
         "I have an API function written in one backend framework and I need your help to transform it to another framework.\n\n"
         "Here's the original API code:\n\n"
@@ -46,7 +67,7 @@ def api_transformer(input_file, output_framework, output_file, model=DEFAULT_MOD
         },
     ]
 
-    # Get the response from GPT-4
+    # Get the response from GPT
     response = openai.ChatCompletion.create(
         model=model,
         messages=messages,
@@ -63,5 +84,14 @@ def api_transformer(input_file, output_framework, output_file, model=DEFAULT_MOD
     print("Note:You may still need to do comment out from GPT's output as file includes comments from the prompt.")
 
 
+
+def main():
+    try:
+        fire.Fire(api_transformer)
+    except FileExtensionError as e:
+        print(str(e))
+
+
+
 if __name__ == "__main__":
-    fire.Fire(api_transformer)
+    main()
